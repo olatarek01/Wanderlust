@@ -44,7 +44,7 @@ It provides information about public holidays, events, weather forecasts, long w
 
 🌐 Live Demo
 
-https://olatarek01.github.io/AL-Furqan/
+https://olatarek01.github.io/Wanderlust/
 
 
 
