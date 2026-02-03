@@ -41,11 +41,9 @@ It provides information about public holidays, events, weather forecasts, long w
 
 ---
 
-## 🚀 How to Run the Project
+🌐 Live Demo
 
-1. Clone the repository:
-   ```bash
-   git clone https://olatarek01.github.io/Wanderlust/
+https://olatarek01.github.io/Wanderlust/
 
 
 
