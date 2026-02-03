@@ -349,6 +349,64 @@ async function countryData() {
   `;
   return data;
 }
+///////////////// COUNTRY ////////////////////
+const customSelect = document.getElementById("country-select");
+const selected = customSelect.querySelector(".selected");
+const dropdown = customSelect.querySelector(".dropdown");
+const search = document.getElementById("country-search");
+const optionsList = document.getElementById("country-options");
+const originalSelect = document.getElementById("global-country");
+
+selected.addEventListener("click", () => {
+  const isOpen = dropdown.style.display === "block";
+
+  dropdown.style.display = isOpen ? "none" : "block";
+  selected.classList.toggle("open", !isOpen);
+});
+
+function syncCountries() {
+  optionsList.innerHTML = "";
+
+  [...originalSelect.options].forEach((opt) => {
+    if (!opt.value) return;
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+  <img 
+    src="https://flagcdn.com/w20/${opt.value.toLowerCase()}.png"
+    alt="${opt.text}"
+    class="country-flag"
+  />
+  <span>${opt.text}</span>
+`;
+
+    li.addEventListener("click", () => {
+      selected.childNodes[0].textContent = opt.text;
+      selected.classList.add("has-value");
+
+      originalSelect.value = opt.value;
+      originalSelect.dispatchEvent(new Event("change", { bubbles: true }));
+
+      dropdown.style.display = "none";
+
+      selected.classList.remove("open");
+    });
+
+    optionsList.appendChild(li);
+  });
+}
+
+// search
+search.addEventListener("input", () => {
+  const value = search.value.toLowerCase();
+  [...optionsList.children].forEach((li) => {
+    li.style.display = li.textContent.toLowerCase().includes(value)
+      ? "block"
+      : "none";
+  });
+});
+
 countryData();
 async function restcountries(countryCode) {
   let response = await fetch(
@@ -361,6 +419,8 @@ async function restcountries(countryCode) {
   });
   return country;
 }
+
+countryData().then(syncCountries);
 
 // SELECT COUNTRY
 const viewHeader = document.querySelectorAll(".view-header-selection");
@@ -418,6 +478,8 @@ globalCountry.addEventListener("change", async function () {
     }
   }
   globalCity.innerHTML = cityBox;
+  syncCities();
+
   holidayDisplay(globalYear.value);
   eventsDisplay();
   weatherDisplay(latitude, longitude);
@@ -550,6 +612,134 @@ globalCity.addEventListener("change", function () {
     weatherDisplay(selectedCity.lat, selectedCity.lon);
     sunTimeDisplay(selectedCity.lat, selectedCity.lon, year - month - day);
   }
+});
+
+const citySelect = document.getElementById("city-select");
+const citySelected = document.getElementById("city-selected");
+const cityOptions = document.getElementById("city-options");
+const originalCitySelect = document.getElementById("global-city");
+
+const cityLabel = document.getElementById("city-label");
+
+cityLabel.addEventListener("click", () => {
+  const dropdown = citySelect.querySelector(".dropdown");
+
+  dropdown.style.display = "block";
+  citySelected.classList.add("open");
+
+  syncCities();
+});
+
+citySelected.addEventListener("click", () => {
+  const dropdown = citySelect.querySelector(".dropdown");
+  const isOpen = dropdown.style.display === "block";
+
+  syncCities();
+
+  dropdown.style.display = isOpen ? "none" : "block";
+  citySelected.classList.toggle("open", !isOpen);
+});
+
+function syncCities() {
+  cityOptions.innerHTML = "";
+
+  if (
+    !originalCitySelect.options.length ||
+    originalCitySelect.options[0].value === ""
+  ) {
+    citySelect.classList.add("disabled");
+
+    citySelected.querySelector(".selected-text").innerHTML = `
+      <i class="fa-solid fa-city"></i>
+      Select Country
+    `;
+
+    const li = document.createElement("li");
+    li.textContent = "Select a country first";
+    li.classList.add("placeholder");
+
+    cityOptions.appendChild(li);
+    return;
+  }
+
+  citySelect.classList.remove("disabled");
+
+  [...originalCitySelect.options].forEach((opt, index) => {
+    const li = document.createElement("li");
+    li.textContent = opt.text;
+
+    if (index === 0) {
+      citySelected.querySelector(".selected-text").innerHTML = `
+        <i class="fa-solid fa-city"></i>
+        ${opt.text}
+      `;
+    }
+
+    li.addEventListener("click", () => {
+      citySelected.querySelector(".selected-text").innerHTML = `
+        <i class="fa-solid fa-city"></i>
+        ${opt.text}
+      `;
+
+      originalCitySelect.value = opt.value;
+
+      originalCitySelect.dispatchEvent(new Event("change", { bubbles: true }));
+
+      citySelect.querySelector(".dropdown").style.display = "none";
+      citySelected.classList.remove("open");
+    });
+
+    cityOptions.appendChild(li);
+  });
+}
+
+///////////////////// SELECT YEAR //////////////////////
+
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSelect = document.getElementById("year-select");
+  const yearSelected = document.getElementById("year-selected");
+  const yearOptions = document.getElementById("year-options");
+  const originalYearSelect = document.getElementById("global-year");
+
+  yearSelected.addEventListener("click", () => {
+    const dropdown = yearSelect.querySelector(".dropdown");
+    const isOpen = dropdown.style.display === "block";
+
+    dropdown.style.display = isOpen ? "none" : "block";
+    yearSelected.classList.toggle("open", !isOpen);
+  });
+
+  function syncYears() {
+    yearOptions.innerHTML = "";
+
+    [...originalYearSelect.options].forEach((opt) => {
+      const li = document.createElement("li");
+      li.textContent = opt.text;
+
+      if (opt.selected) {
+        yearSelected.querySelector(".selected-text").lastChild.textContent =
+          opt.text;
+      }
+
+      li.addEventListener("click", () => {
+        yearSelected.querySelector(".selected-text").lastChild.textContent =
+          opt.text;
+
+        originalYearSelect.value = opt.value;
+
+        originalYearSelect.dispatchEvent(
+          new Event("change", { bubbles: true }),
+        );
+
+        yearSelect.querySelector(".dropdown").style.display = "none";
+        yearSelected.classList.remove("open");
+      });
+
+      yearOptions.appendChild(li);
+    });
+  }
+
+  syncYears();
 });
 
 //////////////// HOLIDAY SECTION ///////////////////////

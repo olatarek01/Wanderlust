@@ -180,25 +180,89 @@
               <div class="dashboard-search-form">
                 <div class="search-form-row">
                   <div class="form-group flex-2">
-                    <label
-                      ><i class="fa-solid fa-earth-americas"></i> Country</label
-                    >
-                    <select id="global-country" class="form-select">
+                    <label>
+                      <i class="fa-solid fa-earth-americas"></i> Country
+                    </label>
+
+                    <!-- Custom Select -->
+                    <div class="custom-select" id="country-select">
+                      <div class="selected">
+                        Select Country
+                        <i class="fa-solid fa-chevron-down"></i>
+                      </div>
+
+                      <div class="dropdown">
+                        <div class="search-wrapper">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                          <input
+                            type="text"
+                            class="search"
+                            id="country-search"
+                            placeholder="Search countries..."
+                          />
+                        </div>
+
+                        <ul class="options" id="country-options"></ul>
+                      </div>
+                    </div>
+
+                    <select id="global-country" class="form-select hidden">
                       <option value="">Select Country</option>
                     </select>
                   </div>
+
                   <div class="form-group flex-2">
-                    <label><i class="fa-solid fa-city"></i> City</label>
-                    <select id="global-city" class="form-select"></select>
+                    <label id="city-label">
+                      <i class="fa-solid fa-city"></i> City
+                    </label>
+
+                    <!-- Custom City Select -->
+                    <div class="custom-select disabled" id="city-select">
+                      <div class="selected" id="city-selected">
+                        <span class="selected-text">
+                          <i class="fa-solid fa-city"></i>
+                          Select City
+                        </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                      </div>
+
+                      <div class="dropdown">
+                        <ul class="options" id="city-options"></ul>
+                      </div>
+                    </div>
+
+                    <select
+                      id="global-city"
+                      class="form-select hidden"
+                    ></select>
                   </div>
+
                   <div class="form-group flex-1">
                     <label><i class="fa-solid fa-calendar"></i> Year</label>
-                    <select id="global-year" class="form-select">
+
+                    <!-- Custom Year Select -->
+                    <div class="custom-select" id="year-select">
+                      <div class="selected" id="year-selected">
+                        <span class="selected-text">
+                          <i class="fa-solid fa-calendar"></i>
+                          2026
+                        </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                      </div>
+
+                      <div class="dropdown">
+                        <ul class="options" id="year-options"></ul>
+                      </div>
+                    </div>
+
+                    <!-- ORIGINAL SELECT  -->
+                    <select id="global-year" class="form-select hidden">
                       <option value="2026" selected>2026</option>
                       <option value="2027">2027</option>
                       <option value="2028">2028</option>
                     </select>
                   </div>
+
                   <div class="form-group search-btn-group">
                     <label>&nbsp;</label>
                     <button
