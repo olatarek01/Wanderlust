@@ -39,7 +39,6 @@ It provides information about public holidays, events, weather forecasts, long w
 - **Google Fonts** (Poppins & Inter)
 - **SweetAlert2** (Alerts & notifications)
 
-
 ---
 
 ## 🚀 How to Run the Project
